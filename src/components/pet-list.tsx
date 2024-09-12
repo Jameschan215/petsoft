@@ -10,8 +10,8 @@ export default function PetList() {
 
 	// When searchText equals '', i.e. empty, return the original array!!!
 	const filteredPets = pets.filter((pet) => {
-		const lowerSearchText = searchText.toLocaleLowerCase();
-		if (pet.ownerName.toLocaleLowerCase().includes(lowerSearchText)) {
+		const lowerSearchText = searchText.toLowerCase();
+		if (pet.ownerName.toLowerCase().includes(lowerSearchText)) {
 			return pet;
 		}
 	});
@@ -35,7 +35,7 @@ export default function PetList() {
 							height={45}
 							className="rounded-full object-cover w-[45px] h-[45px]"
 						/>
-						<p className="font-semibold">{pet.ownerName}</p>
+						<p className="font-semibold">{pet.name}</p>
 					</button>
 				</li>
 			))}
