@@ -21,6 +21,23 @@ const formData = new FormData(e.currentTarget);
 };
 ```
 
+## Use Prisma
+
+1. Create TypeScript project and set up Prisma ORM
+   As a first step, create a project directory and navigate into it:
+
+```terminal
+mkdir hello-prisma
+cd hello-prisma
+```
+
+Next, initialize a TypeScript project using npm:
+
+```terminal
+npm init -y
+npm install typescript ts-node @types/node --save-dev
+```
+
 ## Things to learn
 
 - Dialog of shadcn-ui
