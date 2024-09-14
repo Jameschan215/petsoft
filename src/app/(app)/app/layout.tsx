@@ -5,6 +5,7 @@ import PetContextProvider from '@/components/pet-context-provider';
 import SearchContextProvider from '@/components/search-context-provider';
 import { fetchPets } from '@/lib/data';
 import React from 'react';
+import { Toaster } from 'sonner';
 
 export default async function Layout({
 	children,
@@ -24,6 +25,8 @@ export default async function Layout({
 				</SearchContextProvider>
 				<AppFooter />
 			</div>
+
+			<Toaster richColors closeButton position="top-center" />
 		</>
 	);
 }

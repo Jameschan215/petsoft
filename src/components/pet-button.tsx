@@ -16,12 +16,21 @@ import { useState } from 'react';
 type TPetButton = {
 	actionType: 'add' | 'edit' | 'checkout';
 	children: React.ReactNode;
+	onClick?: () => void;
 };
-export default function PetButton({ actionType, children }: TPetButton) {
+export default function PetButton({
+	actionType,
+	children,
+	onClick,
+}: TPetButton) {
 	const [isOpen, setIsOpen] = useState(false);
 
 	if (actionType === 'checkout') {
-		return <Button variant="secondary">{children}</Button>;
+		return (
+			<Button onClick={onClick} variant="secondary">
+				{children}
+			</Button>
+		);
 	}
 
 	return (

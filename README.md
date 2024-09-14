@@ -38,6 +38,10 @@ npm init -y
 npm install typescript ts-node @types/node --save-dev
 ```
 
+## `useFormStatus`
+
+`useFormStatus` is specifically designed to be used in Server Actions, which are components or functions that run on the server side with the `"use server"` directive.
+
 ## Things to learn
 
 - Dialog of shadcn-ui

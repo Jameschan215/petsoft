@@ -1,18 +1,19 @@
 'use client';
 
-import { Pet } from '@/lib/types';
+import { addPet } from '@/actions/actions';
+import { Pet } from '@prisma/client';
 import { useState, createContext } from 'react';
 
 type TPetContext = {
 	pets: Pet[];
 	selectedPetId: string | null;
 	handleUpdateSelectedPedId: (id: string) => void;
-	setPets: (pets: Pet[]) => void;
+
 	numberOfPets: number;
 	selectedPet: Pet | undefined;
-	handleCheckoutPet: (id: string) => void;
-	handleAddPet: (newPet: Omit<Pet, 'id'>) => void;
-	handleEditPet: (newPet: Pet) => void;
+	handleAddPet: (newPet: Omit<Pet, 'id'>) => Promise<void>;
+	// handleCheckoutPet: (id: string) => Promise<void>;
+	// handleEditPet: (id: string, newPet: Omit<Pet, 'id'>) => void;
 };
 
 type TPetContextProvider = {
@@ -23,51 +24,51 @@ type TPetContextProvider = {
 export const PetContext = createContext<TPetContext | null>(null);
 
 export default function PetContextProvider({
-	data,
+	data: pets,
 	children,
 }: TPetContextProvider) {
-	const [pets, setPets] = useState(data);
+	// State
+
 	const [selectedPetId, setSelectedPetId] = useState<string | null>(null);
+
+	// Derived state
 	const numberOfPets = pets.length;
 	const selectedPet = pets.find((pet) => pet.id === selectedPetId);
 
+	// Actions
 	const handleUpdateSelectedPedId = (id: string) => {
 		setSelectedPetId(id);
 	};
 
-	const handleAddPet = (newPet: Omit<Pet, 'id'>) => {
-		setPets((prev) => [
-			...prev,
-			{ ...newPet, id: (prev.length + 1).toString() },
-		]);
+	const handleAddPet = async (newPet: Omit<Pet, 'id'>) => {
+		await addPet(newPet);
 	};
 
-	const handleEditPet = (newPet: Pet) => {
-		setPets((prev) =>
-			prev.map((pet) => {
-				if (pet.id === newPet.id) return newPet;
-				else return pet;
-			})
-		);
-	};
+	// const handleEditPet = async (id: string, newPetData: Omit<Pet, 'id'>) => {
+	// 	const error = await updatePet(id, newPetData);
 
-	const handleCheckoutPet = (id: string) => {
-		setPets((prev) => prev.filter((pet) => pet.id !== id));
-		setSelectedPetId(null);
-	};
+	// 	if (error) {
+	// 		toast.error(error.message);
+	// 	}
+	// };
+
+	// const handleCheckoutPet = async (id: string) => {
+	// 	await deletePet(id);
+	// 	setSelectedPetId(null);
+	// 	return null;
+	// };
 
 	return (
 		<PetContext.Provider
 			value={{
 				pets,
-				setPets,
 				numberOfPets,
 				selectedPetId,
 				handleUpdateSelectedPedId,
 				selectedPet,
-				handleCheckoutPet,
 				handleAddPet,
-				handleEditPet,
+				// handleEditPet,
+				// handleCheckoutPet,
 			}}>
 			{children}
 		</PetContext.Provider>
