@@ -28,11 +28,10 @@ export async function addPet(formData) {
 	revalidatePath('/app', 'layout');
 }
 
-/*
 export async function updatePet(id, formData) {
 	try {
 		console.log('Start updating...');
-		await sleep(3000);
+		await sleep(2000);
 
 		await prisma.pet.update({
 			where: { id: id },
@@ -46,29 +45,26 @@ export async function updatePet(id, formData) {
 		});
 	} catch (error) {
 		return {
-			message: 'Cannot update pet in database.',
+			message: 'Cannot update pet.',
 		};
 	}
 	console.log('Finish updating.');
 
 	revalidatePath('/app', 'layout');
-	redirect('/app/dashboard');
 }
 
 export async function deletePet(id: string) {
 	try {
-		await sleep(3000);
+		await sleep(2000);
 
 		await prisma.pet.delete({
 			where: { id: id },
 		});
 	} catch (error) {
 		return {
-			message: 'Cannot delete pet in database.',
+			message: 'Cannot delete pet.',
 		};
 	}
 
 	revalidatePath('/app', 'layout');
-	redirect('/app/dashboard');
 }
-*/

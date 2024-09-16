@@ -3,6 +3,8 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { usePetContext } from '@/lib/hooks';
 import FormButton from './form-button';
+import { toast } from 'sonner';
+import { updatePet } from '@/actions/actions';
 
 export default function EditForm({
 	onSubmission,
@@ -35,7 +37,13 @@ export default function EditForm({
 	// };
 
 	return (
-		<form className="flex flex-col gap-y-4">
+		<form
+			action={async (formData) => {
+				const error = await updatePet(selectedPet.id, formData);
+				if (error) toast.error(error.message);
+				onSubmission();
+			}}
+			className="flex flex-col gap-y-4">
 			<div className="space-y-1">
 				<Label htmlFor="name">Name</Label>
 				<Input

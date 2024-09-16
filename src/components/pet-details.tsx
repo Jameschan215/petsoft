@@ -5,6 +5,7 @@ import Image from 'next/image';
 import React from 'react';
 import PetButton from '@/components/pet-button';
 import { Pet } from '@prisma/client';
+import { deletePet } from '@/actions/actions';
 
 export default function PetDetails() {
 	const { selectedPet } = usePetContext();
@@ -46,7 +47,13 @@ function TopBar({ pet }: { pet: Pet }) {
 
 			<div className="ml-auto space-x-2">
 				<PetButton actionType="edit">Edit</PetButton>
-				<PetButton actionType="checkout">Checkout</PetButton>
+
+				{/* This button doesn't have pending status */}
+				<PetButton
+					actionType="checkout"
+					onClick={async () => await deletePet(pet.id)}>
+					Checkout
+				</PetButton>
 			</div>
 		</div>
 	);
