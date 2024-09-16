@@ -1,9 +1,7 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-// import { Pet } from '@prisma/client';
 import prisma from '@/lib/db';
-import { defaultImage } from '@/lib/constants';
 import { sleep } from '@/lib/utils';
 
 export async function addPet(petData) {
