@@ -3,15 +3,25 @@
 import { revalidatePath } from 'next/cache';
 // import { Pet } from '@prisma/client';
 import prisma from '@/lib/db';
+import { defaultImage } from '@/lib/constants';
+import { sleep } from '@/lib/utils';
 
-export async function addPet(pet) {
+export async function addPet(formData) {
 	try {
+		await sleep(2000);
+
 		await prisma.pet.create({
-			data: pet,
+			data: {
+				name: formData.get('name'),
+				ownerName: formData.get('ownerName'),
+				imageUrl: formData.get('imageUrl') || defaultImage,
+				age: parseInt(formData.get('age')),
+				notes: formData.get('notes'),
+			},
 		});
 	} catch (error) {
 		return {
-			message: 'Cannot add pet to database.',
+			message: 'Could not add pet.',
 		};
 	}
 

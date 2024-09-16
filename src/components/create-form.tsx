@@ -5,36 +5,39 @@ import FormButton from './form-button';
 import { Input } from './ui/input';
 import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
-import { usePetContext } from '@/lib/hooks';
-import { defaultImage } from '@/lib/constants';
-import { Pet } from '@prisma/client';
+import { addPet } from '@/actions/actions';
+import { toast } from 'sonner';
 
 export default function CreateForm({
 	onSubmission,
 }: {
 	onSubmission: () => void;
 }) {
-	const { handleAddPet } = usePetContext();
-
 	// handle submit action
-	function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-		event.preventDefault();
+	// function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+	// 	event.preventDefault();
 
-		const formData = new FormData(event.currentTarget);
-		const pet = {
-			name: formData.get('name') as string,
-			ownerName: formData.get('ownerName') as string,
-			imageUrl: (formData.get('imageUrl') as string) || defaultImage,
-			age: +(formData.get('age') as string),
-			notes: formData.get('notes') as string,
-		} as Pet;
+	// 	const formData = new FormData(event.currentTarget);
+	// 	const pet = {
+	// 		name: formData.get('name') as string,
+	// 		ownerName: formData.get('ownerName') as string,
+	// 		imageUrl: (formData.get('imageUrl') as string) || defaultImage,
+	// 		age: +(formData.get('age') as string),
+	// 		notes: formData.get('notes') as string,
+	// 	} as Pet;
 
-		handleAddPet(pet);
-		onSubmission();
-	}
+	// 	handleAddPet(pet);
+	// 	onSubmission();
+	// }
 
 	return (
-		<form onSubmit={handleSubmit} className="flex flex-col gap-y-4">
+		<form
+			action={async (formData) => {
+				const error = await addPet(formData);
+				if (error) toast.error(error.message);
+				onSubmission();
+			}}
+			className="flex flex-col gap-y-4">
 			<div className="space-y-1">
 				<Label htmlFor="name">Name</Label>
 				<Input id="name" name="name" type="text" required />
