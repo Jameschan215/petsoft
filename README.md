@@ -45,3 +45,4 @@ npm install typescript ts-node @types/node --save-dev
 ## Things to learn
 
 - Dialog of shadcn-ui
+- flushSync()

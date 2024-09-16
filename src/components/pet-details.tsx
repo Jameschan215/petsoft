@@ -34,6 +34,8 @@ function EmptyView() {
 }
 
 function TopBar({ pet }: { pet: Pet }) {
+	const { handleCheckoutPet } = usePetContext();
+
 	return (
 		<div className="flex items-center bg-white px-8 py-5 border-b border-light">
 			<Image
@@ -51,7 +53,7 @@ function TopBar({ pet }: { pet: Pet }) {
 				{/* This button doesn't have pending status */}
 				<PetButton
 					actionType="checkout"
-					onClick={async () => await deletePet(pet.id)}>
+					onClick={async () => await handleCheckoutPet(pet.id)}>
 					Checkout
 				</PetButton>
 			</div>

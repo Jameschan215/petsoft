@@ -12,6 +12,7 @@ import {
 import CreateForm from './create-form';
 import EditForm from './edit-form';
 import { useState } from 'react';
+import { flushSync } from 'react-dom';
 
 type TPetButton = {
 	actionType: 'add' | 'edit' | 'checkout';
@@ -54,9 +55,17 @@ export default function PetButton({
 
 				{/* Forms */}
 				{actionType === 'add' ? (
-					<CreateForm onSubmission={() => setIsOpen(false)} />
+					<CreateForm
+						onSubmission={() => {
+							flushSync(() => setIsOpen(false));
+						}}
+					/>
 				) : (
-					<EditForm onSubmission={() => setIsOpen(false)} />
+					<EditForm
+						onSubmission={() => {
+							flushSync(() => setIsOpen(false));
+						}}
+					/>
 				)}
 			</DialogContent>
 		</Dialog>

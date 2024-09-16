@@ -6,18 +6,12 @@ import prisma from '@/lib/db';
 import { defaultImage } from '@/lib/constants';
 import { sleep } from '@/lib/utils';
 
-export async function addPet(formData) {
+export async function addPet(petData) {
 	try {
 		await sleep(2000);
 
 		await prisma.pet.create({
-			data: {
-				name: formData.get('name'),
-				ownerName: formData.get('ownerName'),
-				imageUrl: formData.get('imageUrl') || defaultImage,
-				age: parseInt(formData.get('age')),
-				notes: formData.get('notes'),
-			},
+			data: petData,
 		});
 	} catch (error) {
 		return {
@@ -28,27 +22,19 @@ export async function addPet(formData) {
 	revalidatePath('/app', 'layout');
 }
 
-export async function updatePet(id, formData) {
+export async function updatePet(id, petData) {
 	try {
-		console.log('Start updating...');
 		await sleep(2000);
 
 		await prisma.pet.update({
 			where: { id: id },
-			data: {
-				name: formData.get('name'),
-				ownerName: formData.get('ownerName'),
-				age: parseInt(formData.get('age')),
-				imageUrl: formData.get('imageUrl') || defaultImage,
-				notes: formData.get('notes'),
-			},
+			data: petData,
 		});
 	} catch (error) {
 		return {
 			message: 'Cannot update pet.',
 		};
 	}
-	console.log('Finish updating.');
 
 	revalidatePath('/app', 'layout');
 }

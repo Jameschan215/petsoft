@@ -3,45 +3,21 @@ import { Label } from './ui/label';
 import { Textarea } from './ui/textarea';
 import { usePetContext } from '@/lib/hooks';
 import FormButton from './form-button';
-import { toast } from 'sonner';
-import { updatePet } from '@/actions/actions';
 
 export default function EditForm({
 	onSubmission,
 }: {
 	onSubmission: () => void;
 }) {
-	const { selectedPet } = usePetContext();
+	const { selectedPet, handleEditPet } = usePetContext();
 
 	if (!selectedPet) return;
-
-	// const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-	// 	e.preventDefault();
-
-	// 	const formData = new FormData(e.currentTarget);
-	// 	const newPet: Pet = {
-	// 		id: selectedPet.id,
-	// 		name: formData.get('name') as string,
-	// 		ownerName: formData.get('ownerName') as string,
-	// 		imageUrl:
-	// 			(formData.get('imageUrl') as string) ||
-	// 			'https://bytegrad.com/course-assets/react-nextjs/pet-placeholder.png',
-	// 		age: +(formData.get('age') as string),
-	// 		notes: formData.get('notes') as string,
-	// 	};
-
-	// 	handleEditPet(newPet);
-
-	// 	// close the dialog
-	// 	onSubmission();
-	// };
 
 	return (
 		<form
 			action={async (formData) => {
-				const error = await updatePet(selectedPet.id, formData);
-				if (error) toast.error(error.message);
 				onSubmission();
+				await handleEditPet(selectedPet.id, formData);
 			}}
 			className="flex flex-col gap-y-4">
 			<div className="space-y-1">
