@@ -6,3 +6,8 @@ export async function fetchPets() {
 
 	return pets;
 }
+
+export async function fetchPetsCount() {
+	const petCount = await prisma.pet.count();
+	return petCount;
+}

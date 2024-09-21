@@ -1,11 +1,10 @@
 'use client';
 
-import { usePetContext } from '@/lib/hooks';
 import Image from 'next/image';
 import React from 'react';
 import PetButton from '@/components/pet-button';
 import { Pet } from '@prisma/client';
-import { deletePet } from '@/actions/actions';
+import { usePetContext } from '@/lib/hooks';
 
 export default function PetDetails() {
 	const { selectedPet } = usePetContext();

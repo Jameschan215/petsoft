@@ -1,9 +1,9 @@
-'use client';
+import { fetchPetsCount } from '@/lib/data';
 
-import { usePetContext } from '@/lib/hooks';
+// import { usePetContext } from '@/lib/hooks';
 
-export default function Stats() {
-	const { numberOfPets } = usePetContext();
+export default async function Stats() {
+	const numberOfPets = await fetchPetsCount();
 
 	return (
 		<section className="text-center">

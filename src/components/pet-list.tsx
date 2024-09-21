@@ -11,7 +11,7 @@ export default function PetList() {
 	// When searchText equals '', i.e. empty, return the original array!!!
 	const filteredPets = pets.filter((pet) => {
 		const lowerSearchText = searchText.toLowerCase();
-		if (pet.ownerName.toLowerCase().includes(lowerSearchText)) {
+		if (pet.name.toLowerCase().includes(lowerSearchText)) {
 			return pet;
 		}
 	});

@@ -3,50 +3,78 @@
 import { revalidatePath } from 'next/cache';
 import prisma from '@/lib/db';
 import { sleep } from '@/lib/utils';
+import { PetFormSchema, PetIdSchema } from '@/lib/validations';
 
-export async function addPet(petData) {
+export async function createPet(petData: unknown) {
+	await sleep(2000);
+
+	// Validate data form client
+	const validatedPetData = PetFormSchema.safeParse(petData);
+	if (!validatedPetData.success) {
+		return {
+			message: 'Invalid pet data.',
+		};
+	}
+
+	// Insert data into the database
 	try {
-		await sleep(2000);
-
 		await prisma.pet.create({
-			data: petData,
+			data: validatedPetData.data,
 		});
 	} catch (error) {
+		// If a database error occurs, return a more specific error.
 		return {
-			message: 'Could not add pet.',
+			message: 'Database Error: Failed to Create Pet.',
 		};
 	}
 
 	revalidatePath('/app', 'layout');
 }
 
-export async function updatePet(id, petData) {
+export async function updatePet(id: unknown, petData: unknown) {
 	try {
 		await sleep(2000);
+
+		// Validate data form client
+		const validatedPetId = PetIdSchema.safeParse(id);
+		const validatedPetData = PetFormSchema.safeParse(petData);
+		if (!validatedPetId.success || !validatedPetData.success) {
+			return {
+				message: 'Invalid pet data.',
+			};
+		}
 
 		await prisma.pet.update({
-			where: { id: id },
-			data: petData,
+			where: { id: validatedPetId.data },
+			data: validatedPetData.data,
 		});
 	} catch (error) {
 		return {
-			message: 'Cannot update pet.',
+			message: 'Database Error: Failed to update pet.',
 		};
 	}
 
 	revalidatePath('/app', 'layout');
 }
 
-export async function deletePet(id: string) {
+export async function deletePet(id: unknown) {
 	try {
 		await sleep(2000);
 
+		// Validate data form client
+		const validatedPetId = PetIdSchema.safeParse(id);
+		if (!validatedPetId.success) {
+			return {
+				message: 'Invalid pet data.',
+			};
+		}
+
 		await prisma.pet.delete({
-			where: { id: id },
+			where: { id: validatedPetId.data },
 		});
 	} catch (error) {
 		return {
-			message: 'Cannot delete pet.',
+			message: 'Database Error: Failed to delete pet.',
 		};
 	}
 
