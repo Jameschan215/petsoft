@@ -1,5 +1,8 @@
 import { z } from 'zod';
 
+/* ------------------------------------------------------------------------- */
+// Pet form validation
+
 export const PetIdSchema = z.string().cuid();
 
 export const PetFormSchema = z.object({
@@ -22,3 +25,15 @@ export const PetFormSchema = z.object({
 });
 
 export type TPetForm = z.infer<typeof PetFormSchema>;
+
+/* ------------------------------------------------------------------------- */
+// Auth form validation
+
+export const authSchema = z.object({
+	email: z.string().email().max(20),
+	password: z.string().max(20),
+});
+
+// Auth form validation
+
+export type TAuth = z.infer<typeof authSchema>;

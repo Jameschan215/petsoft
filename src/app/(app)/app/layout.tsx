@@ -3,16 +3,19 @@ import AppHeader from '@/components/app-header';
 import BackgroundPattern from '@/components/background-pattern';
 import PetContextProvider from '@/components/pet-context-provider';
 import SearchContextProvider from '@/components/search-context-provider';
-import { fetchPets } from '@/lib/data';
+import prisma from '@/lib/db';
 import React from 'react';
 import { Toaster } from 'sonner';
+import { checkAuth } from '@/lib/server-utils';
+import { fetchPetsByUserId } from '@/lib/data';
 
 export default async function Layout({
 	children,
 }: {
 	children: React.ReactNode;
 }) {
-	const data = await fetchPets();
+	const session = await checkAuth();
+	const data = await fetchPetsByUserId(session.user?.id!);
 
 	return (
 		<>

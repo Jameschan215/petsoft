@@ -1,9 +1,14 @@
-import { fetchPetsCount } from '@/lib/data';
+'use client';
 
-// import { usePetContext } from '@/lib/hooks';
+import { usePetContext } from '@/lib/hooks';
 
-export default async function Stats() {
-	const numberOfPets = await fetchPetsCount();
+export default function Stats() {
+	// const session = await auth();
+	// if (!session?.user) {
+	// 	redirect('/');
+	// }
+	// const numberOfPets = await fetchPetsCount(session.user.id!);
+	const { numberOfPets } = usePetContext();
 
 	return (
 		<section className="text-center">

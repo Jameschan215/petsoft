@@ -13,11 +13,11 @@ type TPetContext = {
 	handleUpdateSelectedPedId: (id: string) => void;
 	numberOfPets: number;
 	selectedPet: Pet | undefined;
-	handleAddPet: (petData: TPetForm) => Promise<void>;
+	handleAddPet: (petData: PetData) => Promise<void>;
 	handleCheckoutPet: (id: string) => Promise<void>;
 	handleEditPet: (
 		id: string,
-		petData: TPetForm
+		petData: PetData
 	) => Promise<{ message: string } | undefined>;
 };
 
